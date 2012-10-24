@@ -1,4 +1,4 @@
-package core.net.connectionhandle.commands 
+package core.net.commands 
 {
 	import com.reyco1.multiuser.events.UserStatusEvent;
 	import patterns.strategy.SimpleAlgorithm;
@@ -7,22 +7,20 @@ package core.net.connectionhandle.commands
 	 * ...
 	 * @author Nikro
 	 */
-	public class UserAddCommand extends SimpleAlgorithm 
+	public class ConnectionCommand extends AbstractNetCommand 
 	{
 		
-		public function UserAddCommand() 
+		public function ConnectionCommand() 
 		{
 			super();
 			
 		}
 		
-		public function execute(e:UserStatusEvent):void
+		override public function execute(e:UserStatusEvent):void 
 		{
-			Status.instance.addMessage('---user added command---');
+			Status.instance.addMessage('---user connected command---');
 			Status.instance.addMessage('User id: ' + e.user.id, 'User address: ' + e.user.address, 'User name: ' + e.user.name);
-			
 		}
-		
 	}
 
 }
