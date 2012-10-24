@@ -18,7 +18,7 @@ package core.net.commands
 		
 		public function execute(e:UserStatusEvent):void
 		{
-			Status.instance.addMessage('---Пользователь вошел: ' + e.user.id+'---');
+			Status.instance.addMessage('---Пользователь вошел: ' + e.user.name+'---');
 		}
 		
 	}

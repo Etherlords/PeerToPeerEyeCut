@@ -5,6 +5,7 @@ package
 	import core.net.commands.ChatMessageCommand;
 	import core.net.commands.ConnectionCommand;
 	import core.net.commands.UserAddCommand;
+	import core.net.commands.UserRemoveCommand;
 	import core.net.ConnectionManager;
 	import core.net.PeerConnection;
 	import flash.display.Sprite;
@@ -40,6 +41,7 @@ package
 			var connectionHandler:StrategyController = new StrategyController
 			connectionHandler.crateNewStrategy(UserStatusEvent.CONNECTED, new ConnectionCommand())
 			connectionHandler.crateNewStrategy(UserStatusEvent.USER_ADDED, new UserAddCommand())
+			connectionHandler.crateNewStrategy(UserStatusEvent.USER_REMOVED, new UserRemoveCommand())
 			connectionHandler.crateNewStrategy(ChatMessageEvent.RECIEVE, new ChatMessageCommand())
 			
 			connection = new PeerConnection('multiuser/test12345');
