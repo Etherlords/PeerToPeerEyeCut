@@ -1,13 +1,13 @@
 package core.net.commands 
 {
-	import com.reyco1.multiuser.events.UserStatusEvent;
+	import flash.events.Event;
 	/**
 	 * ...
 	 * @author Nikro
 	 */
 	public interface INetCommand 
 	{
-		function execute(e:UserStatusEvent):void
+		function execute(e:Event):void
 		
 	}
 

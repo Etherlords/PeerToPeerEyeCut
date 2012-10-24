@@ -16,10 +16,10 @@ package core.net.commands
 			
 		}
 		
-		override public function execute(e:UserStatusEvent):void 
+		public function execute(e:UserStatusEvent):void 
 		{
-			Status.instance.addMessage('---user connected command---');
-			Status.instance.addMessage('User id: ' + e.user.id, 'User address: ' + e.user.address, 'User name: ' + e.user.name);
+			
+			Status.instance.addMessage('---Вход выполнен---');
 		}
 	}
 

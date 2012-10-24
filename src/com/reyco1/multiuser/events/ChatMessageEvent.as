@@ -15,5 +15,10 @@ package com.reyco1.multiuser.events
 			this.message = message;
 			super(type, bubbles, cancelable);
 		}
+		
+		override public function clone():Event 
+		{
+			return new ChatMessageEvent(type, message, bubbles, cancelable);
+		}
 	}
 }

@@ -14,6 +14,7 @@ package core.net
 	public class PeerConnection extends EventDispatcher implements IConnection 
 	{
 		private var session:String;
+		private var connection:MultiUserSession;
 		
 		/**
 		 * @param	session "multiuser/test12341"
@@ -28,10 +29,16 @@ package core.net
 		
 		private function initilize():void 
 		{
-			var connection:MultiUserSession = new MultiUserSession(PeerConnectionConstants.SERV_KEY, session);
+			connection = new MultiUserSession(PeerConnectionConstants.SERV_KEY, session);
 			connection.p2pEventBubblFunction = bubbleEvents;
 			
-			connection.connect('test'+Math.random());
+			connection.connect('test' + Math.random());
+			
+		}
+		
+		public function sendChatMessage(message:String):void
+		{
+			connection.sendChatMessage(message);
 		}
 		
 		private function bubbleEvents(e:Event):void 
