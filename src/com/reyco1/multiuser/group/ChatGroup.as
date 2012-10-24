@@ -39,8 +39,10 @@ package com.reyco1.multiuser.group
 		{
 			Logger.log(event.info.code, this, true);
 			
+			
 			switch (event.info.code)
 			{
+				
 				case "NetGroup.Posting.Notify":
 					if(event.info.message.type == "chat")
 						receiveMessage(event.info.message);
@@ -83,6 +85,7 @@ package com.reyco1.multiuser.group
 			}
 			else
 			{
+				
 				post(message);
 			}
 			p2pDispatcher.dispatchEvent(new ChatMessageEvent(ChatMessageEvent.RECIEVE, message));

@@ -17,7 +17,12 @@ package core.net.commands
 		
 		public function execute(e:ChatMessageEvent):void 
 		{
-			Status.instance.addMessage(e.message.user, 'сказал: ' + e.message.text);
+			Status.instance.addMessage('['+new Date().hours+':'+new Date().minutes+']'+ ' ' + e.message.user, 'сказал: ' + striptKey(e.message.text));
+		}
+		
+		private function striptKey(str:String):String
+		{
+			return str.substr(10);
 		}
 	}
 

@@ -57,9 +57,14 @@ package
 			if (e.keyCode == Keyboard.ENTER)
 			{
 				var msg:String = Status.instance.getInput();
+				var key:String = '';
 				
+				for (var i:int = 0; i < 10; i++)
+				{
+					key+=String.fromCharCode(int(Math.random() * 100))
+				}
 				if (msg.length > 0)
-					connection.sendChatMessage(msg);
+					connection.sendChatMessage(key + msg);
 			}
 		}
 		

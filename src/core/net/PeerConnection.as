@@ -32,7 +32,7 @@ package core.net
 			connection = new MultiUserSession(PeerConnectionConstants.SERV_KEY, session);
 			connection.p2pEventBubblFunction = bubbleEvents;
 			
-			connection.connect('test' + Math.random());
+			connection.connect('Лещь' + String.fromCharCode(int(100+Math.random() * 100))+ int(Math.random() * 100));
 			
 		}
 		
