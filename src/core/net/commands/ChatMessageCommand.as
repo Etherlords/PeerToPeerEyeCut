@@ -1,6 +1,6 @@
 package core.net.commands 
 {
-	import com.reyco1.multiuser.events.ChatMessageEvent;
+	import core.net.model.ChatCommandModel;
 	
 	/**
 	 * ...
@@ -15,9 +15,9 @@ package core.net.commands
 			
 		}
 		
-		public function execute(e:ChatMessageEvent):void 
+		public function execute(data:ChatCommandModel):void 
 		{
-			Status.instance.addMessage('['+new Date().hours+':'+new Date().minutes+']'+ ' ' + e.message.user, 'сказал: ' + striptKey(e.message.text));
+			Status.instance.addMessage('['+new Date().hours+':'+new Date().minutes+']'+ ' ' + data.sender.name, 'сказал: ' + striptKey(data.message));
 		}
 		
 		private function striptKey(str:String):String

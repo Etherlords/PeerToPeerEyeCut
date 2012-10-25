@@ -1,6 +1,7 @@
 package patterns.events 
 {
-	import flash.events.Event;
+	import core.net.events.ConnectionActivityEvent;
+	import core.utils.getClassOfObject;
 	import patterns.strategy.StrategyController;
 	/**
 	 * Solve event handle and redirect it to specifig strategy with a event type as token
@@ -22,10 +23,9 @@ package patterns.events
 			solver = solveFunction
 		}
 		
-		private function solveFunction(e:Event):void
+		private function solveFunction(e:ConnectionActivityEvent):void
 		{
-			var key:String = /*getQualifiedClassName(e) + */e.type;
-			strategyController.execute(key, e);
+			strategyController.execute(getClassOfObject(e.data), e.data);
 		}
 		
 	}

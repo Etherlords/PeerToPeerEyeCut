@@ -4,9 +4,13 @@ package core.net
 	import com.reyco1.multiuser.data.UserObject;
 	import com.reyco1.multiuser.events.ChatMessageEvent;
 	import com.reyco1.multiuser.MultiUserSession;
+	import core.net.events.ConnectionActivityEvent;
+	import core.net.model.DataModel;
 	import core.net.model.PeerConnectionConstants;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.NetDataEvent;
+	import patterns.events.ReycoP2PEventsSolver;
 	/**
 	 * ...
 	 * @author Nikro
@@ -15,6 +19,7 @@ package core.net
 	{
 		private var session:String;
 		private var connection:MultiUserSession;
+		private var reycoConnectionEventSolver:ReycoP2PEventsSolver;
 		
 		/**
 		 * @param	session "multiuser/test12341"
@@ -29,11 +34,12 @@ package core.net
 		
 		private function initilize():void 
 		{
+			reycoConnectionEventSolver = new ReycoP2PEventsSolver();
+			
 			connection = new MultiUserSession(PeerConnectionConstants.SERV_KEY, session);
 			connection.p2pEventBubblFunction = bubbleEvents;
 			
 			connection.connect('Лещь' + String.fromCharCode(int(100+Math.random() * 100))+ int(Math.random() * 100));
-			
 		}
 		
 		public function sendChatMessage(message:String):void
@@ -43,8 +49,9 @@ package core.net
 		
 		private function bubbleEvents(e:Event):void 
 		{
-			trace(e);
-			dispatchEvent(e);
+			var data:DataModel = reycoConnectionEventSolver.eventSolverFunction(e);
+			
+			dispatchEvent(new ConnectionActivityEvent(ConnectionActivityEvent.CONENCTION_ACTIVITY, data));
 		}
 		
 		

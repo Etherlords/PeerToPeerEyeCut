@@ -31,8 +31,12 @@ package
 			input.border = true;
 			input.width = 500;
 			input.height = 25;
+			input.useRichTextClipboard = true;
+			
 			input.type = TextFieldType.INPUT;
 			input.multiline = false;
+			
+			
 			
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			_instance = this;
@@ -43,7 +47,7 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 
 			input.y = stage.stageHeight - input.height;
-			input.width = tf.width = stage.stageWidth;
+			input.width = tf.width = stage.stageWidth - 400;
 			tf.height = stage.stageHeight - input.height - 10;
 		}
 		

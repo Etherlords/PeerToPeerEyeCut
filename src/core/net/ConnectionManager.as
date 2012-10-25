@@ -2,6 +2,7 @@ package core.net
 {
 	import com.reyco1.multiuser.events.ChatMessageEvent;
 	import com.reyco1.multiuser.events.UserStatusEvent;
+	import core.net.events.ConnectionActivityEvent;
 	import patterns.events.StrategyControllerEventSolver;
 	import patterns.strategy.StrategyController;
 	/**
@@ -36,13 +37,7 @@ package core.net
 			var eventSolver:StrategyControllerEventSolver = new StrategyControllerEventSolver(connectionHandlStrategy);
 			var solveFunction:Function = eventSolver.eventSolverFunction;
 			
-			connection.addEventListener(ChatMessageEvent.RECIEVE		, solveFunction);
-			connection.addEventListener(UserStatusEvent.CONNECTED		, solveFunction);
-			connection.addEventListener(UserStatusEvent.DISCONNECTED	, solveFunction);
-			connection.addEventListener(UserStatusEvent.USER_ADDED		, solveFunction);
-			connection.addEventListener(UserStatusEvent.USER_REMOVED	, solveFunction);
-			connection.addEventListener(UserStatusEvent.USER_EXPIRED	, solveFunction);
-			connection.addEventListener(UserStatusEvent.USER_IDLE		, solveFunction);
+			connection.addEventListener(ConnectionActivityEvent.CONENCTION_ACTIVITY		, solveFunction);
 		}
 		
 	}

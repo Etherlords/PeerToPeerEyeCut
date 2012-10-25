@@ -1,7 +1,6 @@
 package core.net.commands 
 {
-	import com.reyco1.multiuser.events.UserStatusEvent;
-	import patterns.strategy.SimpleAlgorithm;
+	import core.net.model.UserStatusCommandModel;
 	
 	/**
 	 * ...
@@ -16,11 +15,11 @@ package core.net.commands
 			
 		}
 		
-		public function execute(e:UserStatusEvent):void 
+		public function execute(data:UserStatusCommandModel):void
 		{
-			
 			Status.instance.addMessage('---Вход выполнен---');
 		}
+		
 	}
 
 }

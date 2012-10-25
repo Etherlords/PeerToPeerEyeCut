@@ -6,7 +6,10 @@ package
 	import core.net.commands.ConnectionCommand;
 	import core.net.commands.UserAddCommand;
 	import core.net.commands.UserRemoveCommand;
+	import core.net.commands.UserStatusCommand;
 	import core.net.ConnectionManager;
+	import core.net.model.ChatCommandModel;
+	import core.net.model.UserStatusCommandModel;
 	import core.net.PeerConnection;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -28,6 +31,7 @@ package
 		
 		public function Main():void 
 		{
+			
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -39,10 +43,8 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			var connectionHandler:StrategyController = new StrategyController
-			connectionHandler.crateNewStrategy(UserStatusEvent.CONNECTED, new ConnectionCommand())
-			connectionHandler.crateNewStrategy(UserStatusEvent.USER_ADDED, new UserAddCommand())
-			connectionHandler.crateNewStrategy(UserStatusEvent.USER_REMOVED, new UserRemoveCommand())
-			connectionHandler.crateNewStrategy(ChatMessageEvent.RECIEVE, new ChatMessageCommand())
+			connectionHandler.crateNewStrategy(UserStatusCommandModel, new UserStatusCommand);
+			connectionHandler.crateNewStrategy(ChatCommandModel, new ChatMessageCommand())
 			
 			connection = new PeerConnection('multiuser/test12345');
 			var connectionManager:ConnectionManager = new ConnectionManager(connection, connectionHandler);
