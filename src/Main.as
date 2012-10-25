@@ -31,14 +31,14 @@ package
 		
 		public function Main():void 
 		{
-			
+			 
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
 		private function init(e:Event = null):void 
 		{
-			//Logger.LEVEL = 1;
+			//Logger.LEVEL = 1; s
 			Security.allowDomain('*');
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
