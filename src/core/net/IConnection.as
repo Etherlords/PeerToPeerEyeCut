@@ -8,7 +8,7 @@ package core.net
 	public interface IConnection extends IEventDispatcher
 	{
 		
-		
+		function sendData(data:Object):void
 		
 	}
 

@@ -2,6 +2,7 @@ package
 {
 	import com.reyco1.multiuser.events.ChatMessageEvent;
 	import com.reyco1.multiuser.events.UserStatusEvent;
+	import core.game.GameProcessor;
 	import core.net.commands.ChatMessageCommand;
 	import core.net.commands.ConnectionCommand;
 	import core.net.commands.UserAddCommand;
@@ -17,6 +18,7 @@ package
 	import flash.system.Security;
 	import flash.ui.Keyboard;
 	import patterns.strategy.StrategyController;
+	import test.TestUIMain;
 	
 	
 	
@@ -42,6 +44,8 @@ package
 			Security.allowDomain('*');
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
+			var world:GameProcessor = new GameProcessor();
+			
 			var connectionHandler:StrategyController = new StrategyController
 			connectionHandler.crateNewStrategy(UserStatusCommandModel, new UserStatusCommand);
 			connectionHandler.crateNewStrategy(ChatCommandModel, new ChatMessageCommand())
@@ -49,7 +53,8 @@ package
 			connection = new PeerConnection('multiuser/test12345');
 			var connectionManager:ConnectionManager = new ConnectionManager(connection, connectionHandler);
 			
-			addChild(new Status());
+			addChild(new TestUIMain());
+			
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, sendMesage);
 		}

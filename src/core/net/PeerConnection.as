@@ -4,9 +4,11 @@ package core.net
 	import com.reyco1.multiuser.data.UserObject;
 	import com.reyco1.multiuser.events.ChatMessageEvent;
 	import com.reyco1.multiuser.MultiUserSession;
+	import core.game.GameProcessor;
 	import core.net.events.ConnectionActivityEvent;
 	import core.net.model.DataModel;
 	import core.net.model.PeerConnectionConstants;
+	import core.services.ServicesLocator;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.NetDataEvent;
@@ -38,13 +40,27 @@ package core.net
 			
 			connection = new MultiUserSession(PeerConnectionConstants.SERV_KEY, session);
 			connection.p2pEventBubblFunction = bubbleEvents;
+			connection.onObjectRecieve = handleObjectRecive;
 			
 			connection.connect('Лещь' + String.fromCharCode(int(100+Math.random() * 100))+ int(Math.random() * 100));
 		}
 		
+		private function handleObjectRecive(peerID:String, object:Object):void
+		{
+			(ServicesLocator.instance.getService(GameProcessor) as GameProcessor).movePlayer(object.user, object.x, object.y);
+		}
+		
 		public function sendChatMessage(message:String):void
 		{
+			
 			connection.sendChatMessage(message);
+		}
+		
+		/* INTERFACE core.net.IConnection */
+		
+		public function sendData(data:Object):void 
+		{
+			connection.sendObject(data);
 		}
 		
 		private function bubbleEvents(e:Event):void 
