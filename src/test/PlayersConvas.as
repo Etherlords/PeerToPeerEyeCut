@@ -16,6 +16,7 @@ package test
 	{
 		private var gameProcessor:GameProcessor = ServicesLocator.instance.getService(GameProcessor) as GameProcessor;
 		
+		private var __x:Number = 0;
 		public function PlayersConvas() 
 		{
 			super();
@@ -28,12 +29,13 @@ package test
 		private function onAddedToStage(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, movePlayer);
+			stage.addEventListener(MouseEvent.MOUSE_MOVE, movePlayer);
 		}
 		
-		private function movePlayer(e:MouseEvent):void 
+		private function movePlayer(e:* = 0):void 
 		{
-			gameProcessor.moveMe(e.stageX, e.stageY);
+			gameProcessor.moveMe(e.stageY);
+			
 		}
 		
 		private function onPlayerSpawn(e:PlayerEvent):void 
@@ -41,7 +43,7 @@ package test
 			var player:PlayerModel = e.playerModel;
 			
 			var playerSprite:PlayerUI = new PlayerUI(player);
-		
+			
 			
 			addChild(playerSprite);
 		}

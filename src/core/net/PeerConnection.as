@@ -8,6 +8,7 @@ package core.net
 	import core.net.events.ConnectionActivityEvent;
 	import core.net.model.DataModel;
 	import core.net.model.PeerConnectionConstants;
+	import core.net.model.UserModel;
 	import core.services.ServicesLocator;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -47,7 +48,10 @@ package core.net
 		
 		private function handleObjectRecive(peerID:String, object:Object):void
 		{
-			(ServicesLocator.instance.getService(GameProcessor) as GameProcessor).movePlayer(object.user, object.x, object.y);
+			
+			var data:DataModel = object as DataModel;
+			data.sender = new UserModel(peerID, '');
+			dispatchEvent(new ConnectionActivityEvent(ConnectionActivityEvent.CONENCTION_ACTIVITY, data));
 		}
 		
 		public function sendChatMessage(message:String):void
@@ -60,6 +64,7 @@ package core.net
 		
 		public function sendData(data:Object):void 
 		{
+			
 			connection.sendObject(data);
 		}
 		

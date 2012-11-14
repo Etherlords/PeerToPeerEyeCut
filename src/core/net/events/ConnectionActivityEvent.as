@@ -11,6 +11,7 @@ package core.net.events
 	{
 		private var _data:DataModel;
 		public static const CONENCTION_ACTIVITY:String = 'CONENCTION_ACTIVITY';
+		public static const CONNECTION_EVENT:String = 'CONNECTION_EVENT';
 		
 		public function ConnectionActivityEvent(type:String, data:DataModel, bubbles:Boolean=false, cancelable:Boolean=false) 
 		{

@@ -6,24 +6,24 @@ package core.net.model
 	 */
 	public class UserStatusCommandModel extends DataModel
 	{
-		private var _sender:UserModel;
 		private var _status:String;
 		
 		public function UserStatusCommandModel(sender:UserModel, status:String) 
 		{
 			_status = status;
-			_sender = sender;
-		}
-		
-		public function get sender():UserModel 
-		{
-			return _sender;
+			super(sender);
 		}
 		
 		public function get status():String 
 		{
 			return _status;
 		}
+		
+		public function set status(value:String):void 
+		{
+			_status = value;
+		}
+		
 		
 	}
 

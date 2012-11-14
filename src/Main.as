@@ -10,11 +10,15 @@ package
 	import core.net.commands.UserStatusCommand;
 	import core.net.ConnectionManager;
 	import core.net.model.ChatCommandModel;
+	import core.net.model.DataModel;
 	import core.net.model.UserStatusCommandModel;
 	import core.net.PeerConnection;
+	import core.pingPong.PingPongPlatformCommand;
+	import core.pingPong.PlatformCommandModel;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import flash.net.registerClassAlias;
 	import flash.system.Security;
 	import flash.ui.Keyboard;
 	import patterns.strategy.StrategyController;
@@ -44,11 +48,16 @@ package
 			Security.allowDomain('*');
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
+			registerClassAlias('DataModel', DataModel);
+			registerClassAlias('PlatformCommandModel', PlatformCommandModel);
+			
 			var world:GameProcessor = new GameProcessor();
 			
 			var connectionHandler:StrategyController = new StrategyController
 			connectionHandler.crateNewStrategy(UserStatusCommandModel, new UserStatusCommand);
 			connectionHandler.crateNewStrategy(ChatCommandModel, new ChatMessageCommand())
+			connectionHandler.crateNewStrategy(PlatformCommandModel, new PingPongPlatformCommand())
+			connectionHandler.crateNewStrategy(PingPongStatusCommandModel, new PingPongPlatformCommand())
 			
 			connection = new PeerConnection('multiuser/test12345');
 			var connectionManager:ConnectionManager = new ConnectionManager(connection, connectionHandler);

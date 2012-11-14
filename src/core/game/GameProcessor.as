@@ -4,6 +4,7 @@ package core.game
 	import core.game.model.PlayerModel;
 	import core.net.ConnectionManager;
 	import core.net.model.UserModel;
+	import core.pingPong.PlatformRemoteController;
 	import core.services.AbstractService;
 	import core.services.ServicesLocator;
 	/**
@@ -13,7 +14,8 @@ package core.game
 	public class GameProcessor extends AbstractService
 	{
 		private var connectionService:ConnectionManager;
-		private var usersList:Vector.<PlayerModel>
+		private var usersList:Vector.<PlayerModel> = new Vector.<PlayerModel>;
+		private var platformController:PlatformRemoteController;
 		
 		public function GameProcessor() 
 		{
@@ -23,31 +25,40 @@ package core.game
 		override public function registred(serviceLocator:ServicesLocator):void 
 		{
 			super.registred(serviceLocator);
+			
+			
 		}
 		
 		private function initilize():void 
 		{
-			usersList = new Vector.<PlayerModel>;
+			//usersList = 
+			
+			platformController = new PlatformRemoteController();
 		}
 		
-		public function moveMe(x:Number, y:Number):void
+		public function moveMe(y:Number):void
 		{
-			
+			if(usersList.length == 0)
+				return;
+				
 			connectionService = ServicesLocator.instance.getService(ConnectionManager) as ConnectionManager;
 			
-			usersList[0].x = x;
-			usersList[0].y = y;
 			
-			connectionService.send( { event:'PlayerMove', user:usersList[0].userData.ident, x:x, y:y } );
+			if(usersList[0])
+				usersList[0].y = y;
+				
+			platformController.onMouseMove(y)
+			
+			//connectionService.send( { event:'PlayerMove', user:usersList[0].userData.ident, x:x, y:y } );
 		}
 		
-		public function movePlayer(user:String, x:Number, y:Number):void
+		public function movePlayer(user:String, y:Number):void
 		{
 			for (var i:int = 0; i < usersList.length; i++)
 			{
 				if (usersList[i].userData.ident == user)
 				{
-					usersList[i].x = x;
+					usersList[i].x = 500;
 					usersList[i].y = y;
 					break;
 				}
