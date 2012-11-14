@@ -11,7 +11,7 @@ package core.pingPong
 	 */
 	public class PlatformRemoteController 
 	{
-		private var connectionService:ConnectionManager;
+		private var _connectionService:ConnectionManager;
 		
 		private var platformData:PlatformCommandModel = new PlatformCommandModel(null, 0, 0 );
 		
@@ -22,29 +22,24 @@ package core.pingPong
 		
 		private function initilize():void 
 		{
-			var sendTimer:Timer = new Timer(100, 0);
+			//var sendTimer:Timer = new Timer(100, 0);
 			
-			sendTimer.addEventListener(TimerEvent.TIMER, sendData);
+			//sendTimer.addEventListener(TimerEvent.TIMER, sendData);
 			
-			sendTimer.start();
+			//sendTimer.start();
 		}
 		
 		public function activate():void
 		{
-			connectionService = ServicesLocator.instance.getService(ConnectionManager) as ConnectionManager;
+			
 		}
 		
-		private function sendData(e:TimerEvent):void 
+		public function sendData():Boolean 
 		{
-			if (connectionService)
-			{
-				connectionService.send(platformData);
-			}
-			else
-			{
-				connectionService = ServicesLocator.instance.getService(ConnectionManager) as ConnectionManager;
-			}
 			
+			connectionService.send(platformData);
+			
+			return true;
 		}
 		
 		public function onMouseMove(y:Number):void
@@ -65,6 +60,14 @@ package core.pingPong
 		public function turnToNormal():void
 		{
 			platformData.turnState = 0;
+		}
+		
+		public function get connectionService():ConnectionManager 
+		{
+			if (!_connectionService)
+				_connectionService = ServicesLocator.instance.getService(ConnectionManager) as ConnectionManager;
+			
+			return _connectionService;
 		}
 		
 		

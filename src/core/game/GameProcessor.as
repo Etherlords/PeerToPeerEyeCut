@@ -16,6 +16,7 @@ package core.game
 		private var connectionService:ConnectionManager;
 		private var usersList:Vector.<PlayerModel> = new Vector.<PlayerModel>;
 		private var platformController:PlatformRemoteController;
+		private var step:int = 0;
 		
 		public function GameProcessor() 
 		{
@@ -34,6 +35,8 @@ package core.game
 			//usersList = 
 			
 			platformController = new PlatformRemoteController();
+			
+			
 		}
 		
 		public function moveMe(y:Number):void
@@ -52,8 +55,16 @@ package core.game
 			//connectionService.send( { event:'PlayerMove', user:usersList[0].userData.ident, x:x, y:y } );
 		}
 		
+		public function gameIteration():void
+		{
+			step++;
+			//Status.instance.addMessage('step', step);
+			platformController.sendData();
+		}
+		
 		public function movePlayer(user:String, y:Number):void
 		{
+			//Status.instance.addMessage('move player');
 			for (var i:int = 0; i < usersList.length; i++)
 			{
 				if (usersList[i].userData.ident == user)
@@ -64,14 +75,24 @@ package core.game
 				}
 			}
 			
+			gameIteration();
+			
 		}
 		
 		public function spawnPlayer(user:UserModel):void
 		{
+			
+			var isAponen:Boolean = usersList.length > 0;
+			
 			var player:PlayerModel = new PlayerModel(user);
 			usersList.push(player);
 			
 			dispatchEvent(new PlayerEvent(PlayerEvent.PLAYER_SPAWN_EVENT, player));
+			
+			if (isAponen)
+			{
+				gameIteration();
+			}
 		}
 		
 		public function removePlayer(user:UserModel):void

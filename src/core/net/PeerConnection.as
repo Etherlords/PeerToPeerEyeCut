@@ -48,7 +48,7 @@ package core.net
 		
 		private function handleObjectRecive(peerID:String, object:Object):void
 		{
-			
+			//Status.instance.addMessage('handl object recive', peerID, object);
 			var data:DataModel = object as DataModel;
 			data.sender = new UserModel(peerID, '');
 			dispatchEvent(new ConnectionActivityEvent(ConnectionActivityEvent.CONENCTION_ACTIVITY, data));
@@ -64,7 +64,7 @@ package core.net
 		
 		public function sendData(data:Object):void 
 		{
-			
+			//Status.instance.addMessage('send data', data);
 			connection.sendObject(data);
 		}
 		

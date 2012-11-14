@@ -25,6 +25,7 @@ package core.net
 		
 		public function send(data:Object):void
 		{
+			
 			_connection.sendData(data);
 		}
 		

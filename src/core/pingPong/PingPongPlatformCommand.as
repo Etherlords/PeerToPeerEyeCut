@@ -10,7 +10,14 @@ package core.pingPong
 	 */
 	public class PingPongPlatformCommand extends AbstractNetCommand 
 	{
-		private var gameProcessor:GameProcessor = ServicesLocator.instance.getService(GameProcessor) as GameProcessor;
+		private var _gameProcessor:GameProcessor;
+		public function get gameProcessor():GameProcessor 
+		{
+			if (!_gameProcessor)
+				_gameProcessor = ServicesLocator.instance.getService(GameProcessor) as GameProcessor;
+			
+			return _gameProcessor;
+		}
 		
 		public function PingPongPlatformCommand() 
 		{
@@ -20,7 +27,7 @@ package core.pingPong
 		
 		public function execute(data:PlatformCommandModel):void
 		{
-			trace('platform command', data.mouseY, data.turnState);
+			//Status.instance.addMessage('platform command', data.mouseY, data.turnState);
 			
 			gameProcessor.movePlayer(data.sender.ident, data.mouseY);
 		}

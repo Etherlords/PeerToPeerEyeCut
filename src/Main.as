@@ -42,8 +42,11 @@ package
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
+		public static var instance:Main;
+		
 		private function init(e:Event = null):void 
 		{
+			instance = this;
 			//Logger.LEVEL = 1; s
 			Security.allowDomain('*');
 			removeEventListener(Event.ADDED_TO_STAGE, init);
@@ -51,22 +54,23 @@ package
 			registerClassAlias('DataModel', DataModel);
 			registerClassAlias('PlatformCommandModel', PlatformCommandModel);
 			
-			var world:GameProcessor = new GameProcessor();
+			
 			
 			var connectionHandler:StrategyController = new StrategyController
 			connectionHandler.crateNewStrategy(UserStatusCommandModel, new UserStatusCommand);
 			connectionHandler.crateNewStrategy(ChatCommandModel, new ChatMessageCommand())
 			connectionHandler.crateNewStrategy(PlatformCommandModel, new PingPongPlatformCommand())
-			connectionHandler.crateNewStrategy(PingPongStatusCommandModel, new PingPongPlatformCommand())
+			//connectionHandler.crateNewStrategy(PingPongStatusCommandModel, new PingPongPlatformCommand())
 			
 			connection = new PeerConnection('multiuser/test12345');
 			var connectionManager:ConnectionManager = new ConnectionManager(connection, connectionHandler);
 			
-			addChild(new TestUIMain());
+			
 			
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, sendMesage);
 		}
+		
 		
 		private function sendMesage(e:KeyboardEvent):void 
 		{
