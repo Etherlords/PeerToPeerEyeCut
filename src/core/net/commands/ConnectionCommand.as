@@ -32,9 +32,9 @@ package core.net.commands
 			
 			trace('connection done');
 			
-			var world:GameProcessor = new GameProcessor();
-			Main.instance.addChild(new TestUIMain());
-			Status.instance.addMessage('---Вход выполнен---');
+			//var world:GameProcessor = new GameProcessor();
+			//Main.instance.addChild(new TestUIMain());
+			//Status.instance.addMessage('---Вход выполнен---');
 			
 			gameProcessor.spawnPlayer(data.sender);
 			

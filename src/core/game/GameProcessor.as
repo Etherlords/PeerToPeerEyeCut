@@ -4,19 +4,26 @@ package core.game
 	import core.game.model.PlayerModel;
 	import core.net.ConnectionManager;
 	import core.net.model.UserModel;
+	import core.pingPong.GameIterationCommand;
+	import core.pingPong.PlatformCommandModel;
 	import core.pingPong.PlatformRemoteController;
 	import core.services.AbstractService;
 	import core.services.ServicesLocator;
+	import pingPong.logic.PingPong;
+	import pingPong.logic.RemotePlatformController;
 	/**
 	 * ...
 	 * @author Nikro
 	 */
 	public class GameProcessor extends AbstractService
 	{
-		private var connectionService:ConnectionManager;
+		private var _connectionService:ConnectionManager;
 		private var usersList:Vector.<PlayerModel> = new Vector.<PlayerModel>;
-		private var platformController:PlatformRemoteController;
+		public var platformController:PlatformRemoteController;
 		private var step:int = 0;
+		private var platform:RemotePlatformController;
+		public var isAponen:Boolean;
+		public var pingPongController:PingPong;
 		
 		public function GameProcessor() 
 		{
@@ -30,13 +37,19 @@ package core.game
 			
 		}
 		
+		public function startRaund():void
+		{
+			pingPongController.startRaund(false);
+		}
+		
+		public function setPlatformView(platform:RemotePlatformController):void
+		{
+			this.platform = platform;
+		}
+		
 		private function initilize():void 
 		{
-			//usersList = 
-			
-			platformController = new PlatformRemoteController();
-			
-			
+			platformController = new PlatformRemoteController()
 		}
 		
 		public function moveMe(y:Number):void
@@ -44,27 +57,40 @@ package core.game
 			if(usersList.length == 0)
 				return;
 				
-			connectionService = ServicesLocator.instance.getService(ConnectionManager) as ConnectionManager;
+			
 			
 			
 			if(usersList[0])
 				usersList[0].y = y;
 				
 			platformController.onMouseMove(y)
+		}
+		
+		public function gameIteration(otherStep:Number):void
+		{
+			//for (var i:int = step; i < otherStep; i++)
+			//{
+				
+			//}
 			
-			//connectionService.send( { event:'PlayerMove', user:usersList[0].userData.ident, x:x, y:y } );
-		}
-		
-		public function gameIteration():void
-		{
-			step++;
-			//Status.instance.addMessage('step', step);
+			if (step == otherStep)
+			{
+				pingPongController.gameStep(1)
+				step++;
+			}
+			else if(otherStep > step)
+			{
+				pingPongController.gameStep(otherStep - step + 1)
+				step = otherStep;
+			}
+			
 			platformController.sendData();
+			
 		}
 		
-		public function movePlayer(user:String, y:Number):void
+		public function movePlayer(data:PlatformCommandModel):void
 		{
-			//Status.instance.addMessage('move player');
+			/*//Status.instance.addMessage('move player');
 			for (var i:int = 0; i < usersList.length; i++)
 			{
 				if (usersList[i].userData.ident == user)
@@ -73,16 +99,30 @@ package core.game
 					usersList[i].y = y;
 					break;
 				}
+			}*/
+			//trace('move platform', platform, y);
+			if (platform)
+			{
+				if (data.turnState == 0)
+					platform.turnToNormal()
+					
+				if (data.turnState == 1)
+					platform.turnPlatformRight()
+					
+				if (data.turnState == 2)
+					platform.turnPlatformLeft()
+					
+				platform.setPlatformPosition(data.mouseY);
 			}
-			
-			gameIteration();
+				
+			//gameIteration();
 			
 		}
 		
 		public function spawnPlayer(user:UserModel):void
 		{
 			
-			var isAponen:Boolean = usersList.length > 0;
+			isAponen = usersList.length > 0;
 			
 			var player:PlayerModel = new PlayerModel(user);
 			usersList.push(player);
@@ -91,7 +131,40 @@ package core.game
 			
 			if (isAponen)
 			{
-				gameIteration();
+				sendIterationEvent();
+			}
+		}
+		
+		private var isWiatIteration:Boolean = false;
+		
+		private function sendIterationEvent():void 
+		{
+			trace('senditerationevent');
+			if (!isWiatIteration)
+			{
+				var iterationModel:GameIterationCommand = new GameIterationCommand();
+				iterationModel.step = step;
+				connectionService.send(iterationModel);
+				isWiatIteration = true;
+			}
+		}
+		
+		public function catchIteration(iterationModel:GameIterationCommand ):void
+		{
+			trace('catch iteration', iterationModel.phase);
+			
+			
+			
+			if (iterationModel.phase == 2)
+			{
+				isWiatIteration = false;
+				sendIterationEvent();
+			}
+			else
+			{
+				isWiatIteration = false;
+				sendIterationEvent();
+				gameIteration(iterationModel.step);
 			}
 		}
 		
@@ -105,6 +178,14 @@ package core.game
 					break;
 				}
 			}
+		}
+		
+		public function get connectionService():ConnectionManager 
+		{
+			if (!_connectionService)
+				_connectionService = ServicesLocator.instance.getService(ConnectionManager) as ConnectionManager;
+			
+			return _connectionService;
 		}
 		
 	}

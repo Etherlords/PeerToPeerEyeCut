@@ -39,7 +39,7 @@ package core.net.commands
 		
 		private function onTimer(e:TimerEvent):void 
 		{
-			Status.instance.addMessage('---Пользователь вошел: ' + data.sender.name + '---');
+			//Status.instance.addMessage('---Пользователь вошел: ' + data.sender.name + '---');
 			
 			var userModel:UserModel = data.sender;
 			gameProcessor.spawnPlayer(userModel);

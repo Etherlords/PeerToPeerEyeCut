@@ -8,7 +8,7 @@ package core.pingPong
 	 * ...
 	 * @author Nikro
 	 */
-	public class PingPongPlatformCommand extends AbstractNetCommand 
+	public class GameIterationCommandLogic extends AbstractNetCommand 
 	{
 		private var _gameProcessor:GameProcessor;
 		public function get gameProcessor():GameProcessor 
@@ -19,17 +19,16 @@ package core.pingPong
 			return _gameProcessor;
 		}
 		
-		public function PingPongPlatformCommand() 
+		public function GameIterationCommandLogic() 
 		{
 			super();
 			
 		}
 		
-		public function execute(data:PlatformCommandModel):void
-		{
-			//Status.instance.addMessage('platform command', data.mouseY, data.turnState);
-			
-			gameProcessor.movePlayer(data);
+		public function execute(data:GameIterationCommand):void
+		{	
+			data.phase++;
+			gameProcessor.catchIteration(data);
 		}
 		
 	}

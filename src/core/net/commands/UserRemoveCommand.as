@@ -17,7 +17,7 @@ package core.net.commands
 		
 		public function execute(data:UserStatusCommandModel):void
 		{
-			Status.instance.addMessage('---Пользователь вышел: ' + data.sender.name+'---');
+			//Status.instance.addMessage('---Пользователь вышел: ' + data.sender.name+'---');
 		}
 	}
 
