@@ -2,6 +2,7 @@ package core.game
 {
 	import core.game.events.PlayerEvent;
 	import core.game.model.PlayerModel;
+	import core.locators.PhysicWorldLocator;
 	import core.net.ConnectionManager;
 	import core.net.model.UserModel;
 	import core.pingPong.GameIterationCommand;
@@ -73,19 +74,21 @@ package core.game
 				
 			//}
 			
+			var step:Number = pingPongController.step;
+			
 			if (step == otherStep)
 			{
-				pingPongController.gameStep(1)
-				step++;
+				//pingPongController.gameStep(1)
+				//step++;
 			}
 			else if(otherStep > step)
 			{
 				pingPongController.gameStep(otherStep - step + 1)
-				step = otherStep;
+				//step = otherStep;
 			}
 			
 			platformController.sendData();
-			
+			sendIterationEvent();
 		}
 		
 		public function movePlayer(data:PlatformCommandModel):void
@@ -139,33 +142,33 @@ package core.game
 		
 		private function sendIterationEvent():void 
 		{
-			trace('senditerationevent');
-			if (!isWiatIteration)
-			{
+		
+			//if (!isWiatIteration)
+			//{
 				var iterationModel:GameIterationCommand = new GameIterationCommand();
-				iterationModel.step = step;
+				iterationModel.step = pingPongController.step;
 				connectionService.send(iterationModel);
 				isWiatIteration = true;
-			}
+			//}
 		}
 		
 		public function catchIteration(iterationModel:GameIterationCommand ):void
 		{
-			trace('catch iteration', iterationModel.phase);
 			
 			
+			//return
 			
-			if (iterationModel.phase == 2)
-			{
-				isWiatIteration = false;
-				sendIterationEvent();
-			}
-			else
-			{
-				isWiatIteration = false;
-				sendIterationEvent();
+			//if (iterationModel.phase == 2)
+			//{
+			//	isWiatIteration = false;
+			//	sendIterationEvent();
+			//}
+			//else
+			//{
+			//	isWiatIteration = false;
+			//	sendIterationEvent();
 				gameIteration(iterationModel.step);
-			}
+			//}
 		}
 		
 		public function removePlayer(user:UserModel):void
